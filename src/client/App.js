@@ -4,12 +4,36 @@ import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import Toolbar from '@material-ui/core/Toolbar';
 import AppBar from '@material-ui/core/AppBar';
+import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import Icon from '@material-ui/core/Icon';
+import Paper from '@material-ui/core/Paper';
+import InputBase from '@material-ui/core/InputBase';
 import Typography from '@material-ui/core/Typography';
+import CssBaseline from '@material-ui/core/CssBaseline';
 
 const styles = theme => ({
-    grow: { flexGrow: 1 }
+    appBar: {
+        top: 'auto',
+        bottom: 0,
+    },
+    toolbar: {
+        paddingRight: theme.spacing.unit * 2,
+    },
+    inputArea: {
+        flexGrow: 1,
+        display: "flex",
+        alignItems: "baseline",
+        marginRight: theme.spacing.unit * 2,
+        paddingLeft: theme.spacing.unit * 2,
+        paddingRight: theme.spacing.unit,
+    },
+    nickname: {
+        fontWeight: 500
+    },
+    messageField: {
+        padding: theme.spacing.unit
+    }
 });
 
 class App extends Component {
@@ -26,15 +50,29 @@ class App extends Component {
         const { username } = this.state;
         return (
             <Fragment>
-                <AppBar><Toolbar>
-                    <Typography variant="h6" color="inherit" className={classes.grow}>
-                        Chatroom
-                    </Typography>
-                    <IconButton color="inherit">
-                        <Icon>menu</Icon>
-                    </IconButton>
-                </Toolbar></AppBar>
-                {username ? `Hello ${username}` : <h1>Loading.. please wait!</h1>}
+                <CssBaseline />
+                {username ? `Hello ${username}` : "Loading... please wait!"}
+                <AppBar position="fixed" className={classes.appBar}>
+                    <Toolbar className={classes.toolbar}>
+                        <Paper className={classes.inputArea}>
+                            <Typography
+                                variant="subtitle1"
+                                className={classes.nickname}
+                            >
+                                {username}
+                            </Typography>
+                            <InputBase
+                                className={classes.messageField}
+                                fullWidth
+                                placeholder="Write a message..."
+                            />
+                            <Button color="primary">send</Button>
+                        </Paper>
+                        <IconButton color="inherit">
+                            <Icon>group</Icon>
+                        </IconButton>
+                    </Toolbar>
+                </AppBar>
             </Fragment>
         );
     }
