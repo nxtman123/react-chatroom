@@ -13,6 +13,8 @@
   "author": "Kurtis Jantzen",
   "license": "ISC",
   "dependencies": {
+    "@material-ui/core": "^3.9.2",
+    "@material-ui/styles": "^3.0.0-alpha.10",
     "babel-polyfill": "^6.26.0",
     "express": "^4.16.3",
     "react": "^16.5.2",
