@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import { MuiThemeProvider } from '@material-ui/core/styles';
+import React, { Component } from "react";
+import { MuiThemeProvider } from "@material-ui/core/styles";
 
-import theme from "./theme.js";
-import Chatroom from "./Chatroom.js";
+import theme from "./theme";
+import Chatroom from "./Chatroom";
 
 class App extends Component {
     render() {
