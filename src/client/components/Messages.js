@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from "react";
+import React, { Component, Fragment } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import classNames from "classnames";
 
@@ -18,7 +18,7 @@ const styles = theme => ({
     }
 });
 
-class Messages extends PureComponent {
+class Messages extends Component {
     messagesEnd = null;
 
     render() {

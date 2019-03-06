@@ -45,7 +45,6 @@ const styles = theme => ({
     },
     mainArea: {
         paddingTop: theme.spacing.unit * 2,
-        paddingBottom: theme.spacing.unit * 2,
         paddingLeft: theme.spacing.unit * 3,
         paddingRight: theme.spacing.unit * 3,
         overflowY: "auto",
@@ -79,6 +78,9 @@ const styles = theme => ({
     messageField: {
         padding: theme.spacing.unit,
     },
+    form: {
+        display: "contents"
+    },
     grow: {
         flexGrow: 1,
     }
@@ -86,84 +88,7 @@ const styles = theme => ({
 
 class Chatroom extends Component {
     state = {
-        user: {
-            id: "1f717bcc-fa96-4b80-aaf9-71370dab1295",
-            nick: "kurtis",
-            color: "#269415"
-        },
-        users: {
-            "1f717bcc-fa96-4b80-aaf9-71370dab1295": {
-                nick: "kurtis",
-                color: "#269415"
-            },
-            "8c4ff54d-783d-4e95-b6bf-06bffb6069a4": {
-                nick: "mark",
-                color: "#de248c"
-            },
-            "ce37ee70-3f0b-466b-acec-9bf6f6efefe8": {
-                nick: "amanda",
-                color: "#1234d6"
-            },
-            "1f717bcc-fa96-4b80-aaf9-71370dab129a": {
-                nick: "zack",
-                color: "#269415"
-            },
-            "8c4ff54d-783d-4e95-b6bf-06bffb6069ab": {
-                nick: "tom",
-                color: "#de248c"
-            },
-            "ce37ee70-3f0b-466b-acec-9bf6f6efefec": {
-                nick: "jack",
-                color: "#1234d6"
-            },
-            "1f717bcc-fa96-4b80-aaf9-71370dab129d": {
-                nick: "lauren",
-                color: "#269415"
-            },
-            "8c4ff54d-783d-4e95-b6bf-06bffb6069ae": {
-                nick: "nathan",
-                color: "#de248c"
-            },
-            "ce37ee70-3f0b-466b-acec-9bf6f6efefef": {
-                nick: "aidan",
-                color: "#1234d6"
-            }
-        },
-        messages: [
-            {
-                id: 0,
-                userId: "ce37ee70-3f0b-466b-acec-9bf6f6efefec",
-                text: "bla bla bla bla bla bla"
-            }, {
-                id: 1,
-                userId: "ce37ee70-3f0b-466b-acec-9bf6f6efefec",
-                text: "you there kurtis?"
-            }, {
-                id: 2,
-                userId: "1f717bcc-fa96-4b80-aaf9-71370dab1295",
-                text: "yeah I'm here"
-            }, {
-                id: 3,
-                userId: "8c4ff54d-783d-4e95-b6bf-06bffb6069ab",
-                text: "me too"
-            }, {
-                id: 4,
-                userId: "ce37ee70-3f0b-466b-acec-9bf6f6efefec",
-                text: "checking in"
-            }, {
-                id: 5,
-                userId: "1f717bcc-fa96-4b80-aaf9-71370dab129d",
-                text: "what's up?"
-            }, {
-                id: 6,
-                userId: "8c4ff54d-783d-4e95-b6bf-06bffb6069ae",
-                text: "Hey, everyone"
-            }, {
-                id: 7,
-                userId: "ce37ee70-3f0b-466b-acec-9bf6f6efefef",
-                text: "bahahaha!"
-            }
-        ],
+        draft: "",
         desktopDrawerOpen: true,
         mobileDrawerOpen: false,
     };
@@ -175,8 +100,8 @@ class Chatroom extends Component {
     }
 
     render() {
-        const { classes, width } = this.props;
-        const { user, users, messages, desktopDrawerOpen, mobileDrawerOpen } = this.state;
+        const { classes, width, user, users, messages } = this.props;
+        const { draft, desktopDrawerOpen, mobileDrawerOpen } = this.state;
         return (
             <Fragment>
                 <CssBaseline />
@@ -238,14 +163,30 @@ class Chatroom extends Component {
                                 >
                                     {user.nick}
                                 </Typography>
-                                <InputBase
-                                    className={classes.messageField}
-                                    fullWidth
-                                    placeholder="Write a message..."
-                                />
-                                <Button color="primary">send</Button>
+                                <form
+                                    onSubmit={this.submitMessage}
+                                    className={classes.form}
+                                >
+                                    <InputBase
+                                        className={classes.messageField}
+                                        fullWidth
+                                        placeholder="Write a message..."
+                                        value={draft}
+                                        onChange={this.writeDraft}
+                                    />
+                                    <Button
+                                        color="primary"
+                                        disabled={draft === ""}
+                                        type="submit"
+                                    >
+                                        send
+                                    </Button>
+                                </form>
                             </Paper>
-                            <IconButton color="inherit" onClick={this.toggleDrawer}>
+                            <IconButton
+                                color="inherit"
+                                onClick={this.toggleDrawer}
+                            >
                                 <Icon>group</Icon>
                             </IconButton>
                         </Toolbar>
@@ -278,6 +219,19 @@ class Chatroom extends Component {
             });
         }
     }
+
+    writeDraft = e => {
+        this.setState({
+            draft: e.target.value
+        });
+    }
+
+    submitMessage = e => {
+        e.preventDefault();
+        console.log("sent");
+        this.props.sendMessage(this.state.draft);
+        this.setState({ draft: "" });
+    };
 }
 
 export default withStyles(styles)(withWidth()(Chatroom));
