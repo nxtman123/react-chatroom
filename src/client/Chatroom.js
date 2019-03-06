@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { withStyles } from "@material-ui/core/styles";
+import withWidth from "@material-ui/core/withWidth";
 
 import Drawer from "@material-ui/core/Drawer";
 import Divider from "@material-ui/core/Divider";
@@ -12,7 +13,7 @@ import Paper from "@material-ui/core/Paper";
 import InputBase from "@material-ui/core/InputBase";
 import Typography from "@material-ui/core/Typography";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import withWidth from "@material-ui/core/withWidth";
+import Hidden from "@material-ui/core/Hidden";
 
 import UserList from "./components/UserList";
 
@@ -121,7 +122,8 @@ class Chatroom extends Component {
             //     color: "#1234d6"
             // },
         ],
-        drawerOpen: (this.props.width === "xs" ? false : true)
+        desktopDrawerOpen: true,
+        mobileDrawerOpen: false,
     };
 
     componentDidMount() {
@@ -132,25 +134,43 @@ class Chatroom extends Component {
 
     render() {
         const { classes, width } = this.props;
-        const { user, users, drawerOpen } = this.state;
+        const { user, users, desktopDrawerOpen, mobileDrawerOpen } = this.state;
         return (
             <Fragment>
                 <CssBaseline />
                 Messages
-                <Drawer
-                    anchor="right"
-                    variant={width === "xs" ? "temporary" : "persistent"}
-                    classes={{ paper: classes.drawerPaper }}
-                    open={drawerOpen}
-                >
-                    <UserList user={user} users={users} />
-                    <Divider/>
-                    <Toolbar className={classes.drawerToolbar}>
-                        <IconButton onClick={this.closeDrawer}>
-                            <Icon>close</Icon>
-                        </IconButton>
-                    </Toolbar>
-                </Drawer>
+                <Hidden only="xs">
+                    <Drawer
+                        anchor="right"
+                        variant="persistent"
+                        classes={{ paper: classes.drawerPaper }}
+                        open={desktopDrawerOpen}
+                    >
+                        <UserList user={user} users={users} />
+                        <Divider/>
+                        <Toolbar className={classes.drawerToolbar}>
+                            <IconButton onClick={this.closeDrawer}>
+                                <Icon>close</Icon>
+                            </IconButton>
+                        </Toolbar>
+                    </Drawer>
+                </Hidden>
+                <Hidden smUp>
+                    <Drawer
+                        anchor="right"
+                        variant="temporary"
+                        classes={{ paper: classes.drawerPaper }}
+                        open={mobileDrawerOpen}
+                    >
+                        <UserList user={user} users={users} />
+                        <Divider/>
+                        <Toolbar className={classes.drawerToolbar}>
+                            <IconButton onClick={this.closeDrawer}>
+                                <Icon>close</Icon>
+                            </IconButton>
+                        </Toolbar>
+                    </Drawer>
+                </Hidden>
                 <AppBar position="fixed" className={classes.appBar}>
                     <Toolbar className={classes.toolbar}>
                         <Paper className={classes.inputArea}>
@@ -178,15 +198,27 @@ class Chatroom extends Component {
     }
 
     toggleDrawer = () => {
-        this.setState({
-            drawerOpen: !this.state.drawerOpen
-        });
+        if (this.props.width === "xs") {
+            this.setState({
+                mobileDrawerOpen: !this.state.mobileDrawerOpen,
+            });
+        } else {
+            this.setState({
+                desktopDrawerOpen: !this.state.desktopDrawerOpen,
+            });
+        }
     }
 
     closeDrawer = () => {
-        this.setState({
-            drawerOpen: false
-        });
+        if (this.props.width === "xs") {
+            this.setState({
+                mobileDrawerOpen: false,
+            });
+        } else {
+            this.setState({
+                desktopDrawerOpen: false,
+            });
+        }
     }
 }
 

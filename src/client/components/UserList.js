@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from "react";
 import { withStyles } from "@material-ui/core/styles";
 
+import Divider from "@material-ui/core/Divider";
 import List from "@material-ui/core/List";
 import ListSubheader from "@material-ui/core/ListSubheader";
 import ListItem from "@material-ui/core/ListItem";
@@ -24,7 +25,8 @@ const styles = theme => ({
 
 const UserList = (props) => (
     <Fragment>
-        <ListSubheader>Online</ListSubheader>
+        <ListSubheader>Online Users</ListSubheader>
+        <Divider/>
         <List className={props.classes.list}>
             {props.users.map((user) => (
                 <ListItem key={user.id}>
