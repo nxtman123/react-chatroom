@@ -95,12 +95,6 @@ class Chatroom extends Component {
         mobileDrawerOpen: false,
     };
 
-    componentDidMount() {
-        fetch('/api/getUsername')
-            .then(res => res.json())
-            .then(user => this.setState({ username: user.username }));
-    }
-
     render() {
         const { classes, width, thisUserId, users, messages } = this.props;
         const { draft, desktopDrawerOpen, mobileDrawerOpen } = this.state;
