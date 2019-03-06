@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
+import classNames from "classnames";
 
 import Drawer from "@material-ui/core/Drawer";
 import Divider from "@material-ui/core/Divider";
@@ -20,17 +21,45 @@ import UserList from "./components/UserList";
 const drawerWidth = 250;
 
 const styles = theme => ({
+    root: {
+        display: "flex",
+    },
+    content: {
+        flexGrow: 1,
+        transition: theme.transitions.create("margin", {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
+        }),
+        marginRight: 0,
+        display: "flex",
+        flexDirection: "column",
+    },
+    contentShift: {
+        transition: theme.transitions.create("margin", {
+            easing: theme.transitions.easing.easeOut,
+            duration: theme.transitions.duration.enteringScreen,
+        }),
+        marginRight: drawerWidth,
+    },
+    mainArea: {
+        flexGrow: 1,
+        paddingTop: theme.spacing.unit * 2,
+        paddingBottom: theme.spacing.unit * 2,
+        paddingLeft: theme.spacing.unit * 3,
+        paddingRight: theme.spacing.unit * 3,
+        overflowY: "auto",
+    },
     drawerPaper: {
         width: drawerWidth,
-        overflow: "hidden"
+        overflow: "hidden",
     },
     drawerToolbar: {
-        justifyContent: "end"
+        justifyContent: "end",
     },
     appBar: {
         top: "auto",
         bottom: 0,
-        zIndex: theme.zIndex.drawer + 1
+        zIndex: theme.zIndex.drawer + 1,
     },
     toolbar: {
         paddingRight: theme.spacing.unit * 2,
@@ -44,10 +73,10 @@ const styles = theme => ({
         paddingRight: theme.spacing.unit,
     },
     nickname: {
-        fontWeight: 700
+        fontWeight: 700,
     },
     messageField: {
-        padding: theme.spacing.unit
+        padding: theme.spacing.unit,
     }
 });
 
@@ -87,40 +116,50 @@ class Chatroom extends Component {
                 id: "1f717bcc-fa96-4b80-aaf9-71370dab129d",
                 nick: "lauren",
                 color: "#269415"
-            },
-            // {
-            //     id: "8c4ff54d-783d-4e95-b6bf-06bffb6069ae",
-            //     nick: "nathan",
-            //     color: "#de248c"
-            // }, {
-            //     id: "ce37ee70-3f0b-466b-acec-9bf6f6efefef",
-            //     nick: "aidan",
-            //     color: "#1234d6"
-            // }, {
-            //     id: "1f717bcc-fa96-4b80-aaf9-71370dab12a5",
-            //     nick: "connor",
-            //     color: "#269415"
-            // }, {
-            //     id: "8c4ff54d-783d-4e95-b6bf-06bffb6069b4",
-            //     nick: "mick",
-            //     color: "#de248c"
-            // }, {
-            //     id: "ce37ee70-3f0b-466b-acec-9bf6f6efefc8",
-            //     nick: "leo",
-            //     color: "#1234d6"
-            // }, {
-            //     id: "1f717bcc-fa96-4b80-aaf9-7a370dab1295",
-            //     nick: "marissa",
-            //     color: "#269415"
-            // }, {
-            //     id: "8c4ff54d-783d-4e95-b6bf-0bbffb6069a4",
-            //     nick: "heidi",
-            //     color: "#de248c"
-            // }, {
-            //     id: "ce37ee70-3f0b-466b-acec-9cf6f6efefe8",
-            //     nick: "kali",
-            //     color: "#1234d6"
-            // },
+            }, {
+                id: "8c4ff54d-783d-4e95-b6bf-06bffb6069ae",
+                nick: "nathan",
+                color: "#de248c"
+            }, {
+                id: "ce37ee70-3f0b-466b-acec-9bf6f6efefef",
+                nick: "aidan",
+                color: "#1234d6"
+            }
+        ],
+        messages: [
+            {
+                id: 0,
+                userId: "ce37ee70-3f0b-466b-acec-9bf6f6efefec",
+                text: "bla bla bla bla bla bla"
+            }, {
+                id: 1,
+                userId: "ce37ee70-3f0b-466b-acec-9bf6f6efefec",
+                text: "you there kurtis?"
+            }, {
+                id: 2,
+                userId: "1f717bcc-fa96-4b80-aaf9-71370dab1295",
+                text: "yeah I'm here"
+            }, {
+                id: 3,
+                userId: "8c4ff54d-783d-4e95-b6bf-06bffb6069ab",
+                text: "me too"
+            }, {
+                id: 4,
+                userId: "ce37ee70-3f0b-466b-acec-9bf6f6efefec",
+                text: "checking in"
+            }, {
+                id: 5,
+                userId: "1f717bcc-fa96-4b80-aaf9-71370dab129d",
+                text: "what's up?"
+            }, {
+                id: 6,
+                userId: "8c4ff54d-783d-4e95-b6bf-06bffb6069ae",
+                text: "Hey, everyone"
+            }, {
+                id: 7,
+                userId: "ce37ee70-3f0b-466b-acec-9bf6f6efefef",
+                text: "bahahaha!"
+            }
         ],
         desktopDrawerOpen: true,
         mobileDrawerOpen: false,
@@ -138,61 +177,72 @@ class Chatroom extends Component {
         return (
             <Fragment>
                 <CssBaseline />
-                Messages
-                <Hidden only="xs">
-                    <Drawer
-                        anchor="right"
-                        variant="persistent"
-                        classes={{ paper: classes.drawerPaper }}
-                        open={desktopDrawerOpen}
+                <div className={classes.root}>
+                    <div
+                        className={classNames(classes.content, {
+                            [classes.contentShift]: (desktopDrawerOpen && width !== "xs"),
+                        })}
                     >
-                        <UserList user={user} users={users} />
-                        <Divider/>
-                        <Toolbar className={classes.drawerToolbar}>
-                            <IconButton onClick={this.closeDrawer}>
-                                <Icon>close</Icon>
+                        <main className={classes.mainArea}>
+                            Messages
+                        </main>
+                        <Toolbar/>
+                    </div>
+                    <Hidden only="xs">
+                        <Drawer
+                            anchor="right"
+                            variant="persistent"
+                            classes={{ paper: classes.drawerPaper }}
+                            open={desktopDrawerOpen}
+                        >
+                            <UserList user={user} users={users} />
+                            <Divider/>
+                            <Toolbar className={classes.drawerToolbar}>
+                                <IconButton onClick={this.closeDrawer}>
+                                    <Icon>close</Icon>
+                                </IconButton>
+                            </Toolbar>
+                        </Drawer>
+                    </Hidden>
+                    <Hidden smUp>
+                        <Drawer
+                            anchor="right"
+                            variant="temporary"
+                            classes={{ paper: classes.drawerPaper }}
+                            open={mobileDrawerOpen}
+                        >
+                            <UserList user={user} users={users} />
+                            <Divider/>
+                            <Toolbar className={classes.drawerToolbar}>
+                                <IconButton onClick={this.closeDrawer}>
+                                    <Icon>close</Icon>
+                                </IconButton>
+                            </Toolbar>
+                        </Drawer>
+                    </Hidden>
+                    <AppBar position="fixed" className={classes.appBar}>
+                        <Toolbar className={classes.toolbar}>
+                            <Paper className={classes.inputArea}>
+                                <Typography
+                                    variant="body1"
+                                    className={classes.nickname}
+                                    style={{ color: user.color }}
+                                >
+                                    {user.nick}
+                                </Typography>
+                                <InputBase
+                                    className={classes.messageField}
+                                    fullWidth
+                                    placeholder="Write a message..."
+                                />
+                                <Button color="primary">send</Button>
+                            </Paper>
+                            <IconButton color="inherit" onClick={this.toggleDrawer}>
+                                <Icon>group</Icon>
                             </IconButton>
                         </Toolbar>
-                    </Drawer>
-                </Hidden>
-                <Hidden smUp>
-                    <Drawer
-                        anchor="right"
-                        variant="temporary"
-                        classes={{ paper: classes.drawerPaper }}
-                        open={mobileDrawerOpen}
-                    >
-                        <UserList user={user} users={users} />
-                        <Divider/>
-                        <Toolbar className={classes.drawerToolbar}>
-                            <IconButton onClick={this.closeDrawer}>
-                                <Icon>close</Icon>
-                            </IconButton>
-                        </Toolbar>
-                    </Drawer>
-                </Hidden>
-                <AppBar position="fixed" className={classes.appBar}>
-                    <Toolbar className={classes.toolbar}>
-                        <Paper className={classes.inputArea}>
-                            <Typography
-                                variant="body1"
-                                className={classes.nickname}
-                                style={{ color: user.color }}
-                            >
-                                {user.nick}
-                            </Typography>
-                            <InputBase
-                                className={classes.messageField}
-                                fullWidth
-                                placeholder="Write a message..."
-                            />
-                            <Button color="primary">send</Button>
-                        </Paper>
-                        <IconButton color="inherit" onClick={this.toggleDrawer}>
-                            <Icon>group</Icon>
-                        </IconButton>
-                    </Toolbar>
-                </AppBar>
+                    </AppBar>
+                </div>
             </Fragment>
         );
     }
