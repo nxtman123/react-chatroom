@@ -41,14 +41,16 @@ io.on("connection", socket => {
 
         if (msg.startsWith("/nick ")) {
             const newNick = msg.slice(6);
-            if (! Object.values(users).find(e => e.nick === newNick)) {
+            if (Object.values(users).find(e => e.nick === newNick)) {
+                socket.emit("nope", `The nickname ${newNick} is already in use.`);
+            } else if (newNick.length > 20) {
+                socket.emit("nope", `The nickname ${newNick} is too long.`);
+            } else {
                 users[userId] = {
                     ...users[userId],
                     nick: msg.slice(6),
                 };
                 io.emit("user list", users);
-            } else {
-                socket.emit("nope", `The nickname ${newNick} is already in use.`);
             }
         } else if (msg.startsWith("/nickcolor ")) {
             const newColor = msg.slice(11);

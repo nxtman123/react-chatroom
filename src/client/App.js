@@ -65,6 +65,7 @@ class App extends Component {
                 <Snackbar
                     open={this.state.snackOpen}
                     onClose={this.closeSnack}
+                    autoHideDuration={3000}
                     TransitionComponent={Fade}
                     anchorOrigin={{ vertical: "top", horizontal: "center"}}
                     message={this.state.snackText}
