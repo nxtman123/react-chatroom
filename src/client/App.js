@@ -22,7 +22,9 @@ class App extends Component {
             snackText: "",
         };
 
-        this.socket = io({
+        const socketPath = process.env.NODE_ENV === "production" ? "" : ":8080";
+
+        this.socket = io(socketPath, {
             query: { userId: window.localStorage.getItem("userId") || null }
         });
 
