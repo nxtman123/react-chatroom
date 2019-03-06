@@ -18,19 +18,27 @@ class App extends Component {
             messages: [],
         };
 
-        this.socket = io("http://localhost:8080/", {
+        this.socket = io(":8080", {
             query: { userId: window.localStorage.getItem("userId") || null }
         });
 
         this.socket.on("identify", msg => {
-            console.log("recieved user id: " + msg);
             window.localStorage.setItem("userId", msg);
             this.setState({ thisUserId: msg });
         });
 
         this.socket.on("user list", msg => {
-            console.log("recieved user list");
             this.setState({ users: msg });
+        });
+
+        this.socket.on("message history", msg => {
+            this.setState({ messages: msg });
+        });
+
+        this.socket.on("message", msg => {
+            const messages = this.state.messages;
+            messages.push(msg);
+            this.setState({ messages });
         });
     }
 
@@ -48,13 +56,7 @@ class App extends Component {
     }
 
     sendMessage = messageText => {
-        const messages = this.state.messages;
-        messages.push({
-            id: messages.length,
-            userId: this.state.thisUserId,
-            text: messageText
-        });
-        this.setState({ messages });
+        this.socket.emit("message", messageText);
     }
 }
 
