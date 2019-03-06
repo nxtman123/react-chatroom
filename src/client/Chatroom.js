@@ -74,6 +74,7 @@ const styles = theme => ({
     },
     nickname: {
         fontWeight: 700,
+        fontSize: "1.05rem",
     },
     messageField: {
         padding: theme.spacing.unit,
@@ -100,7 +101,7 @@ class Chatroom extends Component {
     }
 
     render() {
-        const { classes, width, user, users, messages } = this.props;
+        const { classes, width, thisUserId, users, messages } = this.props;
         const { draft, desktopDrawerOpen, mobileDrawerOpen } = this.state;
         return (
             <Fragment>
@@ -114,7 +115,7 @@ class Chatroom extends Component {
                         <div className={classes.grow} />
                         <main className={classes.mainArea}>
                             <Messages
-                                user={user}
+                                thisUserId={thisUserId}
                                 users={users}
                                 messages={messages}
                             />
@@ -128,7 +129,7 @@ class Chatroom extends Component {
                             classes={{ paper: classes.drawerPaper }}
                             open={desktopDrawerOpen}
                         >
-                            <UserList user={user} users={users} />
+                            <UserList thisUserId={thisUserId} users={users} />
                             <Divider/>
                             <Toolbar className={classes.drawerToolbar}>
                                 <IconButton onClick={this.closeDrawer}>
@@ -144,7 +145,7 @@ class Chatroom extends Component {
                             classes={{ paper: classes.drawerPaper }}
                             open={mobileDrawerOpen}
                         >
-                            <UserList user={user} users={users} />
+                            <UserList thisUserId={thisUserId} users={users} />
                             <Divider/>
                             <Toolbar className={classes.drawerToolbar}>
                                 <IconButton onClick={this.closeDrawer}>
@@ -159,9 +160,9 @@ class Chatroom extends Component {
                                 <Typography
                                     variant="body1"
                                     className={classes.nickname}
-                                    style={{ color: user.color }}
+                                    style={{ color: users[thisUserId].color }}
                                 >
-                                    {user.nick}
+                                    {users[thisUserId].nick}
                                 </Typography>
                                 <form
                                     onSubmit={this.submitMessage}
@@ -228,7 +229,6 @@ class Chatroom extends Component {
 
     submitMessage = e => {
         e.preventDefault();
-        console.log("sent");
         this.props.sendMessage(this.state.draft);
         this.setState({ draft: "" });
     };

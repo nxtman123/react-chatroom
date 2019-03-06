@@ -2,6 +2,8 @@ import React, { Component, Fragment } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import classNames from "classnames";
 
+import moment from "moment";
+
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 
@@ -15,14 +17,20 @@ const styles = theme => ({
     },
     nickname: {
         fontWeight: 700,
+        fontSize: "1.05rem",
+    },
+    time: {
+        color: theme.palette.grey[600],
     }
 });
 
 class Messages extends Component {
     messagesEnd = null;
 
+    state = { messageCount: this.props.messages.length }
+
     render() {
-        const { classes, user, users, messages } = this.props;
+        const { classes, thisUserId, users, messages } = this.props;
         return (
             <Fragment>
                 {messages.sort(
@@ -31,7 +39,7 @@ class Messages extends Component {
                     <Paper
                         key={message.id}
                         className={classNames(classes.paper, {
-                            [classes.myMessage]: message.userId === user.id
+                            [classes.myMessage]: message.userId === thisUserId
                         })}
                     >
                         <Typography
@@ -42,7 +50,14 @@ class Messages extends Component {
                             {users[message.userId].nick}
                             {" "}
                         </Typography>
-                        <Typography inline>
+                        <Typography
+                            className={classes.time}
+                            variant="caption"
+                            inline
+                        >
+                            {moment.unix(message.time).calendar()}
+                        </Typography>
+                        <Typography>
                             {message.text}
                         </Typography>
                     </Paper>
@@ -56,9 +71,10 @@ class Messages extends Component {
         this.messagesEnd.scrollIntoView();
     }
 
-    componentDidUpdate(prevProps) {
-        if (prevProps.messages !== this.props.messages) {
+    componentDidUpdate() {
+        if (this.props.messages.length !== this.state.messageCount) {
             this.messagesEnd.scrollIntoView({ behavior: "smooth" });
+            this.setState({ messageCount: this.props.messages.length });
         }
     }
 }

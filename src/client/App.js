@@ -6,11 +6,7 @@ import Chatroom from "./Chatroom";
 
 class App extends Component {
     state = {
-        user: {
-            id: "1f717bcc-fa96-4b80-aaf9-71370dab1295",
-            nick: "kurtis",
-            color: "#269415"
-        },
+        thisUserId: "1f717bcc-fa96-4b80-aaf9-71370dab1295",
         users: {
             "1f717bcc-fa96-4b80-aaf9-71370dab1295": {
                 nick: "kurtis",
@@ -53,34 +49,42 @@ class App extends Component {
             {
                 id: 0,
                 userId: "ce37ee70-3f0b-466b-acec-9bf6f6efefec",
+                time: 1551855109,
                 text: "bla bla bla bla bla bla"
             }, {
                 id: 1,
                 userId: "ce37ee70-3f0b-466b-acec-9bf6f6efefec",
+                time: 1551855209,
                 text: "you there kurtis?"
             }, {
                 id: 2,
                 userId: "1f717bcc-fa96-4b80-aaf9-71370dab1295",
+                time: 1551856209,
                 text: "yeah I'm here"
             }, {
                 id: 3,
                 userId: "8c4ff54d-783d-4e95-b6bf-06bffb6069ab",
+                time: 1551856409,
                 text: "*cries softly*"
             }, {
                 id: 4,
                 userId: "ce37ee70-3f0b-466b-acec-9bf6f6efefec",
+                time: 1551856509,
                 text: "checking in"
             }, {
                 id: 5,
                 userId: "1f717bcc-fa96-4b80-aaf9-71370dab129d",
+                time: 1551856510,
                 text: "what's up?"
             }, {
                 id: 6,
                 userId: "8c4ff54d-783d-4e95-b6bf-06bffb6069ae",
+                time: 1551856511,
                 text: "Hey, everyone"
             }, {
                 id: 7,
                 userId: "ce37ee70-3f0b-466b-acec-9bf6f6efefef",
+                time: 1551856512,
                 text: "bahahaha!"
             }
         ],
@@ -95,14 +99,12 @@ class App extends Component {
     }
 
     sendMessage = messageText => {
-        console.log("adding message " + messageText);
         const messages = this.state.messages;
         messages.push({
             id: messages.length,
-            userId: this.state.user.id,
+            userId: this.state.thisUserId,
             text: messageText
         });
-        console.log(messages);
         this.setState({ messages });
     }
 }

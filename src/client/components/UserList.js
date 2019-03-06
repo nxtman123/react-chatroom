@@ -14,11 +14,16 @@ import IconButton from "@material-ui/core/IconButton";
 const styles = theme => ({
     nickname: {
         fontWeight: 700,
+        fontSize: "1.05rem",
     },
     list: {
         flexGrow: 1,
         flexShrink: 1,
         overflow: "auto",
+    },
+    item: {
+        paddingTop: theme.spacing.unit,
+        paddingBottom: 0,
     }
 });
 
@@ -28,14 +33,14 @@ const UserList = (props) => (
         <Divider/>
         <List className={props.classes.list}>
             {Object.keys(props.users).map((userId) => (
-                <ListItem key={userId}>
+                <ListItem key={userId} className={props.classes.item}>
                     <ListItemText disableTypography>
                         <Typography
                             className={props.classes.nickname}
                             style={{ color: props.users[userId].color }}
                         >
                             {props.users[userId].nick}
-                            {userId === props.user.id ? (
+                            {userId === props.thisUserId ? (
                                 <Typography variant="caption" inline>
                                     {" (me)"}
                                 </Typography>
