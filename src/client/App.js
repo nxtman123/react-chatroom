@@ -22,7 +22,7 @@ class App extends Component {
             snackText: "",
         };
 
-        this.socket = io(":8080", {
+        this.socket = io({
             query: { userId: window.localStorage.getItem("userId") || null }
         });
 
