@@ -13,7 +13,6 @@ import Icon from "@material-ui/core/Icon";
 import Paper from "@material-ui/core/Paper";
 import InputBase from "@material-ui/core/InputBase";
 import Typography from "@material-ui/core/Typography";
-import CssBaseline from "@material-ui/core/CssBaseline";
 import Hidden from "@material-ui/core/Hidden";
 
 import Messages from "./components/Messages";
@@ -105,7 +104,6 @@ class Chatroom extends Component {
         const { draft, desktopDrawerOpen, mobileDrawerOpen } = this.state;
         return (
             <Fragment>
-                <CssBaseline />
                 <div className={classes.root}>
                     <div
                         className={classNames(classes.content, {
@@ -160,9 +158,9 @@ class Chatroom extends Component {
                                 <Typography
                                     variant="body1"
                                     className={classes.nickname}
-                                    style={{ color: users[thisUserId].color }}
+                                    style={{ color: users[thisUserId] ? users[thisUserId].color : "black" }}
                                 >
-                                    {users[thisUserId].nick}
+                                    {users[thisUserId] ? users[thisUserId].nick : "me"}
                                 </Typography>
                                 <form
                                     onSubmit={this.submitMessage}

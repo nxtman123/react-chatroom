@@ -29,11 +29,12 @@ const styles = theme => ({
 
 const UserList = (props) => (
     <Fragment>
-        <ListSubheader>Online Users</ListSubheader>
+        <ListSubheader>Users</ListSubheader>
         <Divider/>
         <List className={props.classes.list}>
             {Object.keys(props.users).map((userId) => (
                 <ListItem key={userId} className={props.classes.item}>
+                    <Icon>{props.users[userId].online ? "check" : "close"}</Icon>
                     <ListItemText disableTypography>
                         <Typography
                             className={props.classes.nickname}

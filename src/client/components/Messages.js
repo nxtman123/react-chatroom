@@ -44,10 +44,10 @@ class Messages extends Component {
                     >
                         <Typography
                             className={classes.nickname}
-                            style={{ color: users[message.userId].color }}
+                            style={{ color: users[message.userId] ? users[message.userId].color : "black" }}
                             inline
                         >
-                            {users[message.userId].nick}
+                            {users[message.userId] ? users[message.userId].nick : "unknown user"}
                             {" "}
                         </Typography>
                         <Typography
