@@ -72,12 +72,12 @@ const styles = theme => ({
         paddingRight: theme.spacing.unit,
     },
     nickname: {
-        flex: "0 0 auto",
+        flex: "0 1 auto",
         fontWeight: 700,
         fontSize: "1.05rem",
     },
     messageField: {
-        flex: "1 1 15em",
+        flex: "1 2 7em",
         padding: theme.spacing.unit,
     },
     form: {

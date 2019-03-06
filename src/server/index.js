@@ -38,13 +38,38 @@ io.on("connection", socket => {
 
     socket.on("message", msg => {
         console.log(userId + ": " + msg);
-        const newMessage = {
-            userId,
-            time: moment().unix(),
-            text: msg,
-        };
-        messages.push(newMessage);
-        io.emit("message", newMessage);
+
+        if (msg.startsWith("/nick ")) {
+            const newNick = msg.slice(6);
+            if (! Object.values(users).find(e => e.nick === newNick)) {
+                users[userId] = {
+                    ...users[userId],
+                    nick: msg.slice(6),
+                };
+                io.emit("user list", users);
+            } else {
+                socket.emit("nope", `The nickname ${newNick} is already in use.`);
+            }
+        } else if (msg.startsWith("/nickcolor ")) {
+            const newColor = msg.slice(11);
+            if (/^[0-9A-Fa-f]{6}$/i.test(newColor)) {
+                users[userId] = {
+                    ...users[userId],
+                    color: "#" + newColor,
+                };
+                io.emit("user list", users);
+            } else {
+                socket.emit("nope", "Use a hex color code in the form RRGGBB.");
+            }
+        } else {
+            const newMessage = {
+                userId,
+                time: moment().unix(),
+                text: msg,
+            };
+            messages.push(newMessage);
+            io.emit("message", newMessage);
+        }
     });
 
     socket.on("disconnect", () => {

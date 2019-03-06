@@ -5,6 +5,8 @@ import io from "socket.io-client"
 
 import CssBaseline from "@material-ui/core/CssBaseline";
 import LinearProgress from "@material-ui/core/LinearProgress";
+import Snackbar from "@material-ui/core/Snackbar";
+import Fade from "@material-ui/core/Fade";
 
 import theme from "./theme";
 import Chatroom from "./Chatroom";
@@ -16,6 +18,8 @@ class App extends Component {
             thisUserId: null,
             users: {},
             messages: [],
+            snackOpen: false,
+            snackText: "",
         };
 
         this.socket = io(":8080", {
@@ -40,6 +44,13 @@ class App extends Component {
             messages.push(msg);
             this.setState({ messages });
         });
+
+        this.socket.on("nope", msg => {
+            this.setState({
+                snackOpen: true,
+                snackText: msg,
+            });
+        });
     }
 
     render() {
@@ -51,12 +62,23 @@ class App extends Component {
                 ) : (
                     <LinearProgress/>
                 )}
+                <Snackbar
+                    open={this.state.snackOpen}
+                    onClose={this.closeSnack}
+                    TransitionComponent={Fade}
+                    anchorOrigin={{ vertical: "top", horizontal: "center"}}
+                    message={this.state.snackText}
+                />
             </MuiThemeProvider>
         );
     }
 
     sendMessage = messageText => {
         this.socket.emit("message", messageText);
+    }
+
+    closeSnack = () => {
+        this.setState({ snackOpen: false });
     }
 }
 
