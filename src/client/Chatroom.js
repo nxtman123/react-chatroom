@@ -16,6 +16,7 @@ import Typography from "@material-ui/core/Typography";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Hidden from "@material-ui/core/Hidden";
 
+import Messages from "./components/Messages";
 import UserList from "./components/UserList";
 
 const drawerWidth = 250;
@@ -25,6 +26,7 @@ const styles = theme => ({
         display: "flex",
     },
     content: {
+        height: "100vh",
         flexGrow: 1,
         transition: theme.transitions.create("margin", {
             easing: theme.transitions.easing.sharp,
@@ -42,7 +44,6 @@ const styles = theme => ({
         marginRight: drawerWidth,
     },
     mainArea: {
-        flexGrow: 1,
         paddingTop: theme.spacing.unit * 2,
         paddingBottom: theme.spacing.unit * 2,
         paddingLeft: theme.spacing.unit * 3,
@@ -77,6 +78,9 @@ const styles = theme => ({
     },
     messageField: {
         padding: theme.spacing.unit,
+    },
+    grow: {
+        flexGrow: 1,
     }
 });
 
@@ -87,45 +91,44 @@ class Chatroom extends Component {
             nick: "kurtis",
             color: "#269415"
         },
-        users: [
-            {
-                id: "1f717bcc-fa96-4b80-aaf9-71370dab1295",
+        users: {
+            "1f717bcc-fa96-4b80-aaf9-71370dab1295": {
                 nick: "kurtis",
                 color: "#269415"
-            }, {
-                id: "8c4ff54d-783d-4e95-b6bf-06bffb6069a4",
+            },
+            "8c4ff54d-783d-4e95-b6bf-06bffb6069a4": {
                 nick: "mark",
                 color: "#de248c"
-            }, {
-                id: "ce37ee70-3f0b-466b-acec-9bf6f6efefe8",
+            },
+            "ce37ee70-3f0b-466b-acec-9bf6f6efefe8": {
                 nick: "amanda",
                 color: "#1234d6"
-            }, {
-                id: "1f717bcc-fa96-4b80-aaf9-71370dab129a",
+            },
+            "1f717bcc-fa96-4b80-aaf9-71370dab129a": {
                 nick: "zack",
                 color: "#269415"
-            }, {
-                id: "8c4ff54d-783d-4e95-b6bf-06bffb6069ab",
+            },
+            "8c4ff54d-783d-4e95-b6bf-06bffb6069ab": {
                 nick: "tom",
                 color: "#de248c"
-            }, {
-                id: "ce37ee70-3f0b-466b-acec-9bf6f6efefec",
+            },
+            "ce37ee70-3f0b-466b-acec-9bf6f6efefec": {
                 nick: "jack",
                 color: "#1234d6"
-            }, {
-                id: "1f717bcc-fa96-4b80-aaf9-71370dab129d",
+            },
+            "1f717bcc-fa96-4b80-aaf9-71370dab129d": {
                 nick: "lauren",
                 color: "#269415"
-            }, {
-                id: "8c4ff54d-783d-4e95-b6bf-06bffb6069ae",
+            },
+            "8c4ff54d-783d-4e95-b6bf-06bffb6069ae": {
                 nick: "nathan",
                 color: "#de248c"
-            }, {
-                id: "ce37ee70-3f0b-466b-acec-9bf6f6efefef",
+            },
+            "ce37ee70-3f0b-466b-acec-9bf6f6efefef": {
                 nick: "aidan",
                 color: "#1234d6"
             }
-        ],
+        },
         messages: [
             {
                 id: 0,
@@ -173,7 +176,7 @@ class Chatroom extends Component {
 
     render() {
         const { classes, width } = this.props;
-        const { user, users, desktopDrawerOpen, mobileDrawerOpen } = this.state;
+        const { user, users, messages, desktopDrawerOpen, mobileDrawerOpen } = this.state;
         return (
             <Fragment>
                 <CssBaseline />
@@ -183,8 +186,13 @@ class Chatroom extends Component {
                             [classes.contentShift]: (desktopDrawerOpen && width !== "xs"),
                         })}
                     >
+                        <div className={classes.grow} />
                         <main className={classes.mainArea}>
-                            Messages
+                            <Messages
+                                user={user}
+                                users={users}
+                                messages={messages}
+                            />
                         </main>
                         <Toolbar/>
                     </div>

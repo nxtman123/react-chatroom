@@ -14,7 +14,6 @@ import IconButton from "@material-ui/core/IconButton";
 const styles = theme => ({
     nickname: {
         fontWeight: 700,
-        verticalAlign: "baseline"
     },
     list: {
         flexGrow: 1,
@@ -28,15 +27,15 @@ const UserList = (props) => (
         <ListSubheader>Online Users</ListSubheader>
         <Divider/>
         <List className={props.classes.list}>
-            {props.users.map((user) => (
-                <ListItem key={user.id}>
+            {Object.keys(props.users).map((userId) => (
+                <ListItem key={userId}>
                     <ListItemText disableTypography>
                         <Typography
                             className={props.classes.nickname}
-                            style={{ color: user.color }}
+                            style={{ color: props.users[userId].color }}
                         >
-                            {user.nick}
-                            {user.id === props.user.id ? (
+                            {props.users[userId].nick}
+                            {userId === props.user.id ? (
                                 <Typography variant="caption" inline>
                                     {" (me)"}
                                 </Typography>
