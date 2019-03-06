@@ -72,10 +72,12 @@ const styles = theme => ({
         paddingRight: theme.spacing.unit,
     },
     nickname: {
+        flex: "0 0 auto",
         fontWeight: 700,
         fontSize: "1.05rem",
     },
     messageField: {
+        flex: "1 1 15em",
         padding: theme.spacing.unit,
     },
     form: {
@@ -128,12 +130,7 @@ class Chatroom extends Component {
                             open={desktopDrawerOpen}
                         >
                             <UserList thisUserId={thisUserId} users={users} />
-                            <Divider/>
-                            <Toolbar className={classes.drawerToolbar}>
-                                <IconButton onClick={this.closeDrawer}>
-                                    <Icon>close</Icon>
-                                </IconButton>
-                            </Toolbar>
+                            <Toolbar className={classes.drawerToolbar} />
                         </Drawer>
                     </Hidden>
                     <Hidden smUp>

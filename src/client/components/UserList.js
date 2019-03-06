@@ -24,6 +24,9 @@ const styles = theme => ({
     item: {
         paddingTop: theme.spacing.unit,
         paddingBottom: 0,
+    },
+    me: {
+        color: theme.palette.text.disabled,
     }
 });
 
@@ -42,7 +45,11 @@ const UserList = (props) => (
                         >
                             {props.users[userId].nick}
                             {userId === props.thisUserId ? (
-                                <Typography variant="caption" inline>
+                                <Typography
+                                    className={props.classes.me}
+                                    variant="caption"
+                                    inline
+                                >
                                     {" (me)"}
                                 </Typography>
                             ) : null}

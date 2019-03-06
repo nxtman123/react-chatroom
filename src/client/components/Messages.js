@@ -13,14 +13,14 @@ const styles = theme => ({
         marginBottom: theme.spacing.unit,
     },
     myMessage: {
-        backgroundColor: theme.palette.grey[300],
+        backgroundColor: theme.palette.grey[200],
     },
     nickname: {
         fontWeight: 700,
         fontSize: "1.05rem",
     },
     time: {
-        color: theme.palette.grey[600],
+        color: theme.palette.text.disabled,
     }
 });
 

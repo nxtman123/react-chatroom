@@ -1,14 +1,12 @@
-import { createMuiTheme } from '@material-ui/core/styles';
+import { createMuiTheme } from "@material-ui/core/styles";
+import deepPurple from "@material-ui/core/colors/deepPurple";
 
 const theme = createMuiTheme({
-    breakpoints: {
-        values: {
-            xs: 0,
-            sm: 500,
-            md: 720,
-            lg: 1280,
-            xl: 1920
-        }
+    palette: {
+        type: "light",
+        primary: {
+            main: deepPurple[600]
+        },
     },
     typography: {
         useNextVariants: true
