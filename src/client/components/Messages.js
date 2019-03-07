@@ -62,7 +62,7 @@ class Messages extends Component {
                         </Typography>
                     </Paper>
                 )}
-                <div ref={(el) => { this.messagesEnd = el; }} />
+                <a id="messagesEnd" ref={(el) => { this.messagesEnd = el; }} />
             </Fragment>
         );
     }
@@ -73,8 +73,24 @@ class Messages extends Component {
 
     componentDidUpdate() {
         if (this.props.messages.length !== this.state.messageCount) {
-            this.messagesEnd.scrollIntoView({ behavior: "smooth" });
             this.setState({ messageCount: this.props.messages.length });
+
+            // we've got new messages, but should we scroll to the bottom?
+            if ((
+                    // yes, if we're close to the bottom
+                    this.messagesEnd.getBoundingClientRect().bottom <
+                    (window.innerHeight || document.documentElement.clientHeight) + 300
+                ) || (
+                    // yes, if it's my message
+                    this.props.messages[this.props.messages.length-1].userId === this.props.thisUserId
+                ) || (
+                    // yes, if we're recieving more than one new message
+                    // (e.g. joining existing chat, or reconnecting)
+                    this.props.messages.length > this.state.messageCount + 1
+                )
+            ) {
+                this.messagesEnd.scrollIntoView({ behavior: "smooth" });
+            }
         }
     }
 }
