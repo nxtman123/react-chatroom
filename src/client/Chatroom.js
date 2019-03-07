@@ -135,11 +135,15 @@ class Chatroom extends Component {
                             variant="temporary"
                             classes={{ paper: classes.drawerPaper }}
                             open={mobileDrawerOpen}
+                            onClose={this.closeDrawer}
                         >
                             <UserList thisUserId={thisUserId} users={users} />
                             <Divider/>
-                            <Toolbar className={classes.drawerToolbar}>
-                                <IconButton onClick={this.closeDrawer}>
+                            <Toolbar>
+                                <IconButton
+                                    onClick={this.closeDrawer}
+                                    className={classes.closeDrawerButton}
+                                >
                                     <Icon>close</Icon>
                                 </IconButton>
                             </Toolbar>
