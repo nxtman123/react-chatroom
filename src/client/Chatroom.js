@@ -89,6 +89,8 @@ const styles = theme => ({
 });
 
 class Chatroom extends Component {
+    inputArea = null;
+
     state = {
         draft: "",
         desktopDrawerOpen: true,
@@ -164,6 +166,7 @@ class Chatroom extends Component {
                                         placeholder="Write a message..."
                                         value={draft}
                                         onChange={this.writeDraft}
+                                        inputRef={(el) => { this.inputArea = el; }}
                                     />
                                     <Button
                                         color="primary"
@@ -221,6 +224,7 @@ class Chatroom extends Component {
         e.preventDefault();
         this.props.sendMessage(this.state.draft);
         this.setState({ draft: "" });
+        this.inputArea.focus();
     };
 }
 
