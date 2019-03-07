@@ -65,6 +65,7 @@ io.on("connection", socket => {
             }
         } else {
             const newMessage = {
+                id: messages.length,
                 userId,
                 time: moment().unix(),
                 text: msg,
