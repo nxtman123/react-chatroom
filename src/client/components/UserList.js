@@ -36,7 +36,9 @@ const UserList = (props) => (
         <ListSubheader>Users</ListSubheader>
         <Divider/>
         <List className={props.classes.list}>
-            {Object.keys(props.users).map((userId) => (
+            {Object.keys(props.users).sort(
+                (a, b) => (props.users[a].nick > props.users[b].nick)
+            ).map((userId) => (
                 <ListItem key={userId} className={props.classes.item}>
                     <Tooltip
                         placement="right"
