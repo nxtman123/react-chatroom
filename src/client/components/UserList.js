@@ -3,7 +3,6 @@ import { withStyles } from "@material-ui/core/styles";
 
 import Divider from "@material-ui/core/Divider";
 import List from "@material-ui/core/List";
-import ListSubheader from "@material-ui/core/ListSubheader";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import Typography from "@material-ui/core/Typography";
@@ -13,6 +12,9 @@ import Icon from "@material-ui/core/Icon";
 import IconButton from "@material-ui/core/IconButton";
 
 const styles = theme => ({
+    helpButton: {
+        marginLeft: "auto"
+    },
     nickname: {
         fontWeight: 700,
         fontSize: "1.05rem",
@@ -31,42 +33,50 @@ const styles = theme => ({
     }
 });
 
-const UserList = (props) => (
-    <Fragment>
-        <ListSubheader>Users</ListSubheader>
-        <Divider/>
-        <List className={props.classes.list}>
-            {Object.keys(props.users).sort(
-                (a, b) => (props.users[a].nick > props.users[b].nick)
-            ).map((userId) => (
-                <ListItem key={userId} className={props.classes.item}>
-                    <Tooltip
-                        placement="right"
-                        title={props.users[userId].online ? "online" : "offline"}
-                    >
-                        <Icon>{props.users[userId].online ? "check" : "close"}</Icon>
-                    </Tooltip>
-                    <ListItemText disableTypography>
-                        <Typography
-                            className={props.classes.nickname}
-                            style={{ color: props.users[userId].color }}
+const UserList = (props) => {
+    const { classes, thisUserId, users } = props;
+
+    return (
+        <Fragment>
+            <ListItem>
+                <ListItemText>
+                    Users
+                </ListItemText>
+            </ListItem>
+            <Divider/>
+            <List className={classes.list}>
+                {Object.keys(users).sort(
+                    (a, b) => (users[a].nick > users[b].nick)
+                ).map((userId) => (
+                    <ListItem key={userId} className={classes.item}>
+                        <Tooltip
+                            placement="right"
+                            title={users[userId].online ? "online" : "offline"}
                         >
-                            {props.users[userId].nick}
-                            {userId === props.thisUserId ? (
-                                <Typography
-                                    className={props.classes.me}
-                                    variant="caption"
-                                    inline
-                                >
-                                    {" (me)"}
-                                </Typography>
-                            ) : null}
-                        </Typography>
-                    </ListItemText>
-                </ListItem>
-            ))}
-        </List>
-    </Fragment>
-);
+                            <Icon>{users[userId].online ? "check" : "close"}</Icon>
+                        </Tooltip>
+                        <ListItemText disableTypography>
+                            <Typography
+                                className={classes.nickname}
+                                style={{ color: users[userId].color }}
+                            >
+                                {users[userId].nick}
+                                {userId === thisUserId ? (
+                                    <Typography
+                                        className={classes.me}
+                                        variant="caption"
+                                        inline
+                                    >
+                                        {" (me)"}
+                                    </Typography>
+                                ) : null}
+                            </Typography>
+                        </ListItemText>
+                    </ListItem>
+                ))}
+            </List>
+        </Fragment>
+    );
+}
 
 export default withStyles(styles)(UserList);

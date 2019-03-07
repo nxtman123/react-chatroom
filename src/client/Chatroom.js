@@ -17,6 +17,7 @@ import Hidden from "@material-ui/core/Hidden";
 
 import Messages from "./components/Messages";
 import UserList from "./components/UserList";
+import HelpButton from "./components/HelpButton";
 
 const drawerWidth = 250;
 
@@ -61,13 +62,15 @@ const styles = theme => ({
         zIndex: theme.zIndex.drawer + 1,
     },
     toolbar: {
-        paddingRight: theme.spacing.unit * 2,
+        paddingLeft: theme.spacing.unit,
+        paddingRight: theme.spacing.unit,
     },
     inputArea: {
         flexGrow: 1,
         display: "flex",
         alignItems: "baseline",
-        marginRight: theme.spacing.unit * 2,
+        marginLeft: theme.spacing.unit,
+        marginRight: theme.spacing.unit,
         paddingLeft: theme.spacing.unit * 2,
         paddingRight: theme.spacing.unit,
     },
@@ -151,6 +154,7 @@ class Chatroom extends Component {
                     </Hidden>
                     <AppBar position="fixed" className={classes.appBar}>
                         <Toolbar className={classes.toolbar}>
+                            <HelpButton />
                             <Paper className={classes.inputArea}>
                                 <Typography
                                     variant="body1"
@@ -170,7 +174,7 @@ class Chatroom extends Component {
                                         placeholder="Write a message..."
                                         value={draft}
                                         onChange={this.writeDraft}
-                                        inputRef={(el) => { this.inputArea = el; }}
+                                        inputRef={el => { this.inputArea = el; }}
                                     />
                                     <Button
                                         color="primary"
