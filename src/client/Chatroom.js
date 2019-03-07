@@ -160,6 +160,7 @@ class Chatroom extends Component {
                                     <InputBase
                                         className={classes.messageField}
                                         fullWidth
+                                        autoFocus
                                         placeholder="Write a message..."
                                         value={draft}
                                         onChange={this.writeDraft}
