@@ -42,12 +42,12 @@ class App extends Component {
             }
         });
 
-        this.socket.on("user list", msg => {
-            this.setState({ users: msg });
+        this.socket.on("user list", users => {
+            this.setState({ users });
         });
 
-        this.socket.on("message history", msg => {
-            this.setState({ messages: msg });
+        this.socket.on("message history", messages => {
+            this.setState({ messages });
         });
 
         this.socket.on("message", msg => {
@@ -56,10 +56,10 @@ class App extends Component {
             this.setState({ messages });
         });
 
-        this.socket.on("nope", msg => {
+        this.socket.on("nope", nopeMsg => {
             this.setState({
                 snackOpen: true,
-                snackText: msg,
+                snackText: nopeMsg,
             });
         });
     }
