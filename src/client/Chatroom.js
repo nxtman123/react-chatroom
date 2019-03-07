@@ -52,8 +52,8 @@ const styles = theme => ({
         width: drawerWidth,
         overflow: "hidden",
     },
-    drawerToolbar: {
-        justifyContent: "end",
+    closeDrawerButton: {
+        marginLeft: "auto",
     },
     appBar: {
         top: "auto",
