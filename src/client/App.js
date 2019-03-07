@@ -28,9 +28,18 @@ class App extends Component {
             query: { userId: window.localStorage.getItem("userId") || null }
         });
 
-        this.socket.on("identify", msg => {
-            window.localStorage.setItem("userId", msg);
-            this.setState({ thisUserId: msg });
+        this.socket.on("identify", newId => {
+            const oldId = window.localStorage.getItem("userId") || null
+            window.localStorage.setItem("userId", newId);
+            if (oldId !== newId) {
+                this.setState({
+                    thisUserId: newId,
+                    snackOpen: true,
+                    snackText: `Your nickname is ${this.state.users[newId].nick}`,
+                });
+            } else {
+                this.setState({ thisUserId: newId });
+            }
         });
 
         this.socket.on("user list", msg => {
