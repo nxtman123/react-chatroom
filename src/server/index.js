@@ -47,7 +47,7 @@ io.on("connection", socket => {
             if (command === "nick") { // change nickname
                 const newNick = args;
                 if (newNick.length > 20) {
-                    socket.emit("nope", `The nickname ${newNick} is too long.`);
+                    socket.emit("nope", ["The nickname ", "newNick", " is too long."]);
                 } else {
                     for (let id of Object.keys(users)) {
                         if (id === userId) {
@@ -56,7 +56,7 @@ io.on("connection", socket => {
                         } else
                         // compare nicknames case-insensitively to avoid confusion
                         if (users[id].nick.toLowerCase() === newNick.toLowerCase()) {
-                            socket.emit("nope", `The nickname ${users[id].nick} is already in use.`);
+                            socket.emit("nope", ["The nickname ", users[id].nick, " is already in use."]);
                             return;
                         }
                     }
@@ -75,10 +75,10 @@ io.on("connection", socket => {
                     };
                     io.emit("user list", users);
                 } else {
-                    socket.emit("nope", "Use a hex color code in the form RRGGBB.");
+                    socket.emit("nope", ["Use a hex color code in the form ", "RRGGBB", "."]);
                 }
             } else {
-                socket.emit("nope", `Unknown command /${command}.`);
+                socket.emit("nope", ["Unknown command ", "/" + command, "."]);
             }
 
         } else { // not a command, send the regular message

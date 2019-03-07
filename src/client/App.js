@@ -5,11 +5,10 @@ import io from "socket.io-client"
 
 import CssBaseline from "@material-ui/core/CssBaseline";
 import LinearProgress from "@material-ui/core/LinearProgress";
-import Snackbar from "@material-ui/core/Snackbar";
-import Fade from "@material-ui/core/Fade";
 
 import theme from "./theme";
 import Chatroom from "./Chatroom";
+import AlertBar from "./components/AlertBar";
 
 class App extends Component {
     constructor(props) {
@@ -18,8 +17,7 @@ class App extends Component {
             thisUserId: null,
             users: {},
             messages: [],
-            snackOpen: false,
-            snackText: "",
+            alertMessage: null,
         };
 
         const socketPath = process.env.NODE_ENV === "production" ? "" : ":8080";
@@ -34,8 +32,7 @@ class App extends Component {
             if (oldId !== newId) {
                 this.setState({
                     thisUserId: newId,
-                    snackOpen: true,
-                    snackText: `Your nickname is ${this.state.users[newId].nick}`,
+                    alertMessage: ["Your nickname is ", this.state.users[newId].nick, "."],
                 });
             } else {
                 this.setState({ thisUserId: newId });
@@ -58,8 +55,7 @@ class App extends Component {
 
         this.socket.on("nope", nopeMsg => {
             this.setState({
-                snackOpen: true,
-                snackText: nopeMsg,
+                alertMessage: nopeMsg,
             });
         });
     }
@@ -73,13 +69,9 @@ class App extends Component {
                 ) : (
                     <LinearProgress/>
                 )}
-                <Snackbar
-                    open={this.state.snackOpen}
-                    onClose={this.closeSnack}
-                    autoHideDuration={3000}
-                    TransitionComponent={Fade}
-                    anchorOrigin={{ vertical: "top", horizontal: "center"}}
-                    message={this.state.snackText}
+                <AlertBar
+                    alertMessage={this.state.alertMessage}
+                    closeAlert={this.closeAlert}
                 />
             </MuiThemeProvider>
         );
@@ -89,8 +81,8 @@ class App extends Component {
         this.socket.emit("message", messageText);
     }
 
-    closeSnack = () => {
-        this.setState({ snackOpen: false });
+    closeAlert = () => {
+        this.setState({ alertMessage: null });
     }
 }
 
