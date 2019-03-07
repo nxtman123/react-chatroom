@@ -8,6 +8,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import Typography from "@material-ui/core/Typography";
 import Toolbar from "@material-ui/core/Toolbar";
+import Tooltip from "@material-ui/core/Tooltip";
 import Icon from "@material-ui/core/Icon";
 import IconButton from "@material-ui/core/IconButton";
 
@@ -37,7 +38,12 @@ const UserList = (props) => (
         <List className={props.classes.list}>
             {Object.keys(props.users).map((userId) => (
                 <ListItem key={userId} className={props.classes.item}>
-                    <Icon>{props.users[userId].online ? "check" : "close"}</Icon>
+                    <Tooltip
+                        placement="right"
+                        title={props.users[userId].online ? "online" : "offline"}
+                    >
+                        <Icon>{props.users[userId].online ? "check" : "close"}</Icon>
+                    </Tooltip>
                     <ListItemText disableTypography>
                         <Typography
                             className={props.classes.nickname}
