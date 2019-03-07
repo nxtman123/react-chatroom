@@ -39,31 +39,49 @@ io.on("connection", socket => {
     socket.on("message", msg => {
         console.log(userId + ": " + msg);
 
-        if (msg.startsWith("/nick ")) {
-            const newNick = msg.slice(6);
-            if (Object.values(users).find(e => e.nick === newNick)) {
-                socket.emit("nope", `The nickname ${newNick} is already in use.`);
-            } else if (newNick.length > 20) {
-                socket.emit("nope", `The nickname ${newNick} is too long.`);
+        if (msg.startsWith("/")) { // check for commands
+            const command = msg.slice(1, msg.indexOf(" ") === -1 ? undefined : msg.indexOf(" ")).toLowerCase();
+            const args = msg.slice(2 + command.length);
+            console.log("command: /" + command + " " + args);
+
+            if (command === "nick") { // change nickname
+                const newNick = args;
+                if (newNick.length > 20) {
+                    socket.emit("nope", `The nickname ${newNick} is too long.`);
+                } else {
+                    for (let id of Object.keys(users)) {
+                        if (id === userId) {
+                            // I'm allowed to change capitalization on my own nickname
+                            continue;
+                        } else
+                        // compare nicknames case-insensitively to avoid confusion
+                        if (users[id].nick.toLowerCase() === newNick.toLowerCase()) {
+                            socket.emit("nope", `The nickname ${users[id].nick} is already in use.`);
+                            return;
+                        }
+                    }
+                    users[userId] = {
+                        ...users[userId],
+                        nick: newNick,
+                    };
+                    io.emit("user list", users);
+                }
+            } else if (command === "nickcolor") { // change nickname color
+                const newColor = msg.slice(11);
+                if (/^[0-9A-Fa-f]{6}$/i.test(newColor)) {
+                    users[userId] = {
+                        ...users[userId],
+                        color: "#" + newColor,
+                    };
+                    io.emit("user list", users);
+                } else {
+                    socket.emit("nope", "Use a hex color code in the form RRGGBB.");
+                }
             } else {
-                users[userId] = {
-                    ...users[userId],
-                    nick: msg.slice(6),
-                };
-                io.emit("user list", users);
+                socket.emit("nope", `Unknown command /${command}.`);
             }
-        } else if (msg.startsWith("/nickcolor ")) {
-            const newColor = msg.slice(11);
-            if (/^[0-9A-Fa-f]{6}$/i.test(newColor)) {
-                users[userId] = {
-                    ...users[userId],
-                    color: "#" + newColor,
-                };
-                io.emit("user list", users);
-            } else {
-                socket.emit("nope", "Use a hex color code in the form RRGGBB.");
-            }
-        } else {
+
+        } else { // not a command, send the regular message
             const newMessage = {
                 id: messages.length,
                 userId,
