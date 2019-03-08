@@ -32,7 +32,6 @@ io.on("connection", socket => {
             online: true,
         };
     }
-    console.log(users);
     io.emit("user list", users);     // send the updated user list before...
     socket.emit("identify", userId); // sending the user's id
     socket.emit("message history", messages);
@@ -43,7 +42,8 @@ io.on("connection", socket => {
         if (msg.startsWith("/")) { // check for commands
             const command = msg.slice(1, msg.indexOf(" ") === -1 ? undefined : msg.indexOf(" ")).toLowerCase();
             const args = msg.slice(2 + command.length);
-            console.log("command: /" + command + " " + args);
+            console.log("command: /" + command);
+            console.log("args: " + args);
 
             if (command === "nick") { // change nickname
                 const newNick = args;

@@ -32,7 +32,6 @@ const styles = theme => ({
     },
     bottomButton: {
         position: "sticky",
-        marginTop: theme.spacing.unit * 3,
         marginBottom: "150vh",
         marginLeft: `calc(100% - ${theme.spacing.unit * 6}px)`,
         top: theme.spacing.unit * 2,
@@ -99,9 +98,7 @@ class Messages extends Component {
     }
 
     componentDidUpdate() {
-        console.log(this.props.messages.length, this.state.messageCount)
-
-        if (this.props.messages.length !== this.state.messageCount) {
+        if (this.props.messages && this.props.messages.length !== this.state.messageCount) {
             this.setState({ messageCount: this.props.messages.length });
 
             // we've got new messages, but should we scroll to the bottom?

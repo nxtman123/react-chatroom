@@ -21,13 +21,14 @@ const drawerWidth = 250;
 
 const styles = theme => ({
     root: {
-        // display: "flex",
-        // flexDirection: "column",
-        // alignItems: "stretch",
-        height: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "stretch",
+        minHeight: "100vh",
+        border: "solid 2px red"
     },
     content: {
-        // flexGrow: 1,
+        flexGrow: 1,
         minHeight: "100%",
         display: "flex",
         flexDirection: "column",
@@ -37,8 +38,7 @@ const styles = theme => ({
             duration: theme.transitions.duration.leavingScreen,
         }),
         marginRight: 0,
-        display: "flex",
-        flexDirection: "column",
+        border: "solid 2px orange"
     },
     contentShift: {
         transition: theme.transitions.create("margin", {
@@ -47,10 +47,15 @@ const styles = theme => ({
         }),
         marginRight: drawerWidth,
     },
+    grow: {
+        flexGrow: 1,
+        border: "solid 2px green"
+    },
     mainArea: {
         paddingTop: theme.spacing.unit * 2,
         paddingLeft: theme.spacing.unit * 3,
         paddingRight: theme.spacing.unit * 3,
+        border: "solid 2px lime"
     },
     drawerPaper: {
         width: drawerWidth,
@@ -62,12 +67,11 @@ const styles = theme => ({
         top: "auto",
         bottom: 0,
         zIndex: theme.zIndex.drawer + 1,
-    },
-    grow: {
-        flexGrow: 1,
+        border: "solid 2px blue"
     },
     mainSpacer: {
         visibility: "hidden",
+        border: "solid 2px lightblue"
     },
     drawerSpacer: {
         visibility: "hidden",
