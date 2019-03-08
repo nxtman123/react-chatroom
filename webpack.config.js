@@ -5,7 +5,7 @@ const { DefinePlugin } = require('webpack');
 
 const outputDirectory = 'dist';
 
-module.exports = {
+module.exports = (env, argv) => ({
   entry: ['babel-polyfill', './src/client/index.js'],
   output: {
     path: path.join(__dirname, outputDirectory),
@@ -45,7 +45,7 @@ module.exports = {
       favicon: './public/favicon.ico'
     }),
     new DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+      'process.env.NODE_ENV': JSON.stringify(argv.mode)
     }),
   ]
-};
+});
