@@ -98,7 +98,9 @@ class Messages extends Component {
     }
 
     componentDidUpdate() {
-        if (this.props.messages && this.props.messages.length !== this.state.messageCount) {
+        if (this.props.messages && this.props.messages.length &&
+                this.props.messages.length !== this.state.messageCount
+        ) {
             this.setState({ messageCount: this.props.messages.length });
 
             // we've got new messages, but should we scroll to the bottom?
