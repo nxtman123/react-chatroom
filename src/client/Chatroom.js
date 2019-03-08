@@ -25,7 +25,6 @@ const styles = theme => ({
         flexDirection: "column",
         alignItems: "stretch",
         minHeight: "100vh",
-        border: "solid 2px red"
     },
     content: {
         flexGrow: 1,
@@ -38,7 +37,6 @@ const styles = theme => ({
             duration: theme.transitions.duration.leavingScreen,
         }),
         marginRight: 0,
-        border: "solid 2px orange"
     },
     contentShift: {
         transition: theme.transitions.create("margin", {
@@ -49,13 +47,11 @@ const styles = theme => ({
     },
     grow: {
         flexGrow: 1,
-        border: "solid 2px green"
     },
     mainArea: {
         paddingTop: theme.spacing.unit * 2,
         paddingLeft: theme.spacing.unit * 3,
         paddingRight: theme.spacing.unit * 3,
-        border: "solid 2px lime"
     },
     drawerPaper: {
         width: drawerWidth,
@@ -67,11 +63,9 @@ const styles = theme => ({
         top: "auto",
         bottom: 0,
         zIndex: theme.zIndex.drawer + 1,
-        border: "solid 2px blue"
     },
     mainSpacer: {
         visibility: "hidden",
-        border: "solid 2px lightblue"
     },
     drawerSpacer: {
         visibility: "hidden",
