@@ -13,13 +13,13 @@ cd react-chatroom
 # Install dependencies
 yarn (or npm install)
 
-# Start development server
+# Start development server (visit http://localhost:3000/)
 yarn dev (or npm run dev)
 
 # Build for production
 yarn build (or npm run build)
 
-# Start production server
+# Start production server (visit http://localhost:8080/)
 yarn start (or npm start)
 ```
 
