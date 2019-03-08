@@ -190,6 +190,7 @@ class Chatroom extends Component {
                                             fullWidth
                                             autoFocus
                                             multiline
+                                            onKeyPress={this.checkSubmit}
                                             placeholder="Write a message..."
                                             value={draft}
                                             onChange={this.writeDraft}
@@ -247,6 +248,13 @@ class Chatroom extends Component {
         this.setState({
             draft: e.target.value
         });
+    }
+
+    checkSubmit = e => {
+        console.log(e)
+        if (e.which == 13 && !e.shiftKey) {
+            this.submitMessage(e);
+        }
     }
 
     submitMessage = e => {
