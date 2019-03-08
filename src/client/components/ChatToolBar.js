@@ -64,7 +64,7 @@ const ChatToolBar = (props) => {
     return (
         <Toolbar className={classes.toolbar}>
             <HelpButton />
-            <Paper className={classes.inputArea}>
+            <Paper className={classes.inputArea} elevation={0}>
                 <form
                     onSubmit={submitMessage}
                     className={classes.form}
