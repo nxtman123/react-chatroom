@@ -25,12 +25,13 @@ yarn start (or npm start)
 
 ## Usage
 
-- Users can send single line messages to each other.
-- Your own messages are shaded in the chad history.
+- Users can send single and multi-line messages to each other.
+- Your own messages are shaded in the chat history.
 - New users see the whole chat history.
 - When first visiting the site, a random animal nickname and color are assigned to you.
 - Your nickname can be changed with `/nick <new nickname>`.
 - The color your name appears in can be changed with `/nickcolor RRGGBB`.
+- On desktop, use `[Shift]` + `[Enter]` to add a newline without sending.
 - If you close your browser and come back, you'll still have the same nickname and color.
 
 ## Boilerplate Credit
