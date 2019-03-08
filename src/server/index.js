@@ -22,7 +22,7 @@ io.on("connection", socket => {
     if (userId === null || Object.keys(users).indexOf(userId) === -1) {
         userId = uuidv4();
         users[userId] = {
-            nick: animals(),
+            nick: animals().replace("-", " "),
             color: randomColor({ luminosity: "bright" }),
             online: true,
         };
