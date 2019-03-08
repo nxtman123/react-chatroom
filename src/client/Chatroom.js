@@ -9,27 +9,28 @@ import Drawer from "@material-ui/core/Drawer";
 import Divider from "@material-ui/core/Divider";
 import Toolbar from "@material-ui/core/Toolbar";
 import AppBar from "@material-ui/core/AppBar";
-import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import Icon from "@material-ui/core/Icon";
-import Paper from "@material-ui/core/Paper";
-import InputBase from "@material-ui/core/InputBase";
-import Typography from "@material-ui/core/Typography";
 import Hidden from "@material-ui/core/Hidden";
 
 import Messages from "./components/Messages";
 import UserList from "./components/UserList";
-import HelpButton from "./components/HelpButton";
+import ChatToolBar from "./components/ChatToolBar";
 
 const drawerWidth = 250;
 
 const styles = theme => ({
     root: {
         display: "flex",
+        flexDirection: "column",
+        alignItems: "stretch",
+        height: "100vh",
     },
     content: {
-        height: "100vh",
         flexGrow: 1,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "stretch",
         transition: theme.transitions.create("margin", {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
@@ -49,11 +50,9 @@ const styles = theme => ({
         paddingTop: theme.spacing.unit * 2,
         paddingLeft: theme.spacing.unit * 3,
         paddingRight: theme.spacing.unit * 3,
-        overflowY: "auto",
     },
     drawerPaper: {
         width: drawerWidth,
-        overflow: "hidden",
     },
     closeDrawerButton: {
         marginLeft: "auto",
@@ -63,55 +62,25 @@ const styles = theme => ({
         bottom: 0,
         zIndex: theme.zIndex.drawer + 1,
     },
-    toolbar: {
-        paddingLeft: theme.spacing.unit,
-        paddingRight: theme.spacing.unit,
-    },
-    inputArea: {
-        flexGrow: 1,
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "stretch",
-        flexWrap: "nowrap",
-        margin: theme.spacing.unit,
-    },
-    wrapGroup: {
-        flexGrow: 1,
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "stretch",
-        flexWrap: "wrap",
-    },
-    nickname: {
-        alignSelf: "center",
-        marginTop: theme.spacing.unit,
-        marginBottom: theme.spacing.unit,
-        paddingLeft: theme.spacing.unit * 2,
-        flex: "0 1 auto",
-        fontWeight: 700,
-        fontSize: "1.05rem",
-    },
-    messageField: {
-        flex: "1 1 10em",
-        paddingLeft: theme.spacing.unit * 2,
-        paddingRight: theme.spacing.unit,
-        lineHeight: 1.5,
-    },
-    form: {
-        display: "contents"
-    },
-    sendButton: {
-        marginTop: theme.spacing.unit,
-        marginBottom: theme.spacing.unit,
-        marginRight: theme.spacing.unit,
-    },
     grow: {
         flexGrow: 1,
-    }
+    },
+    mainSpacer: {
+        visibility: "hidden",
+    },
+    drawerSpacer: {
+        visibility: "hidden",
+        marginTop: -theme.spacing.unit * 3,
+    },
+    pageBottom: {
+        display: "block",
+        height: 0
+    },
 });
 
 class Chatroom extends Component {
     inputArea = null;
+    pageBottom = null;
 
     state = {
         draft: "",
@@ -136,10 +105,17 @@ class Chatroom extends Component {
                                 thisUserId={thisUserId}
                                 users={users}
                                 messages={messages}
+                                messagesEnd={this.pageBottom}
                             />
                         </main>
-                        <Toolbar/>
                     </div>
+                    <AppBar position="static" className={classes.mainSpacer}>
+                        <ChatToolBar
+                            thisUserId={thisUserId}
+                            users={users}
+                            draft={draft}
+                        />
+                    </AppBar>
                     <Hidden only="xs">
                         <Drawer
                             anchor="right"
@@ -148,7 +124,13 @@ class Chatroom extends Component {
                             open={desktopDrawerOpen}
                         >
                             <UserList thisUserId={thisUserId} users={users} />
-                            <Toolbar className={classes.drawerToolbar} />
+                            <AppBar position="static" className={classes.drawerSpacer}>
+                                <ChatToolBar
+                                    thisUserId={null}
+                                    users={users}
+                                    draft={draft}
+                                />
+                            </AppBar>
                         </Drawer>
                     </Hidden>
                     <Hidden smUp>
@@ -172,51 +154,22 @@ class Chatroom extends Component {
                         </Drawer>
                     </Hidden>
                     <AppBar position="fixed" className={classes.appBar}>
-                        <Toolbar className={classes.toolbar}>
-                            <HelpButton />
-                            <Paper className={classes.inputArea}>
-                                <form
-                                    onSubmit={this.submitMessage}
-                                    className={classes.form}
-                                >
-                                    <div className={classes.wrapGroup}>
-                                        <Typography
-                                            variant="body1"
-                                            className={classes.nickname}
-                                            style={{ color: users[thisUserId] ? users[thisUserId].color : "black" }}
-                                        >
-                                            {users[thisUserId] ? users[thisUserId].nick : "me"}
-                                        </Typography>
-                                        <InputBase
-                                            className={classes.messageField}
-                                            fullWidth
-                                            autoFocus
-                                            multiline
-                                            onKeyPress={this.checkSubmit}
-                                            placeholder="Write a message..."
-                                            value={draft}
-                                            onChange={this.writeDraft}
-                                            inputRef={el => { this.inputArea = el; }}
-                                        />
-                                    </div>
-                                    <Button
-                                        className={classes.sendButton}
-                                        color="primary"
-                                        disabled={draft === ""}
-                                        type="submit"
-                                    >
-                                        send
-                                    </Button>
-                                </form>
-                            </Paper>
-                            <IconButton
-                                color="inherit"
-                                onClick={this.toggleDrawer}
-                            >
-                                <Icon>group</Icon>
-                            </IconButton>
-                        </Toolbar>
+                        <ChatToolBar
+                            thisUserId={thisUserId}
+                            users={users}
+                            draft={draft}
+                            submitMessage={this.submitMessage}
+                            checkSubmit={this.checkSubmit}
+                            writeDraft={this.writeDraft}
+                            toggleDrawer={this.toggleDrawer}
+                            inputRef={el => { this.inputArea = el; }}
+                        />
                     </AppBar>
+                    <a
+                        id="messagesEnd"
+                        ref={(el) => { this.pageBottom = el; }}
+                        className={classes.pageBottom}
+                    />
                 </div>
             </Fragment>
         );

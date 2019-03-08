@@ -21,7 +21,6 @@ const styles = theme => ({
     },
     list: {
         flexGrow: 1,
-        flexShrink: 1,
         overflow: "auto",
     },
     item: {

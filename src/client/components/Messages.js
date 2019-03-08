@@ -41,12 +41,11 @@ const styles = theme => ({
 
 class Messages extends Component {
     listFrame = null;
-    messagesEnd = null;
 
     state = { messageCount: this.props.messages.length }
 
     render() {
-        const { classes, thisUserId, users, messages } = this.props;
+        const { classes, thisUserId, users, messages, messagesEnd } = this.props;
 
         const screenHeight = (window.innerHeight || document.documentElement.clientHeight);
         const contentHeight = this.listFrame ? this.listFrame.getBoundingClientRect().height : 0;
@@ -61,7 +60,7 @@ class Messages extends Component {
                     <Fab
                         className={classes.bottomButton}
                         color="primary"
-                        onClick={() => { this.messagesEnd.scrollIntoView({ behavior: "smooth" }); }}
+                        onClick={() => { messagesEnd.scrollIntoView({ behavior: "smooth" }); }}
                     >
                         <Icon>arrow_downward</Icon>
                     </Fab>
@@ -95,13 +94,8 @@ class Messages extends Component {
                         </Typography>
                     </Paper>
                 )}
-                <a id="messagesEnd" ref={(el) => { this.messagesEnd = el; }} />
             </div>
         );
-    }
-
-    componentDidMount() {
-        this.messagesEnd.scrollIntoView();
     }
 
     componentDidUpdate() {
@@ -111,7 +105,7 @@ class Messages extends Component {
             // we've got new messages, but should we scroll to the bottom?
             if ((
                     // yes, if we're close to the bottom
-                    this.messagesEnd.getBoundingClientRect().bottom <
+                    this.props.messagesEnd.getBoundingClientRect().bottom <
                     (window.innerHeight || document.documentElement.clientHeight) + 300
                 ) || (
                     // yes, if it's my message
@@ -122,7 +116,7 @@ class Messages extends Component {
                     this.props.messages.length > this.state.messageCount + 1
                 )
             ) {
-                this.messagesEnd.scrollIntoView({ behavior: "smooth" });
+                this.props.messagesEnd.scrollIntoView({ behavior: "smooth" });
             }
         }
     }
