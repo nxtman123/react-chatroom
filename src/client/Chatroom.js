@@ -68,23 +68,40 @@ const styles = theme => ({
     inputArea: {
         flexGrow: 1,
         display: "flex",
-        alignItems: "baseline",
-        marginLeft: theme.spacing.unit,
-        marginRight: theme.spacing.unit,
-        paddingLeft: theme.spacing.unit * 2,
-        paddingRight: theme.spacing.unit,
+        justifyContent: "space-between",
+        alignItems: "stretch",
+        flexWrap: "nowrap",
+        margin: theme.spacing.unit,
+    },
+    wrapGroup: {
+        flexGrow: 1,
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "stretch",
+        flexWrap: "wrap",
     },
     nickname: {
+        alignSelf: "center",
+        marginTop: theme.spacing.unit,
+        marginBottom: theme.spacing.unit,
+        paddingLeft: theme.spacing.unit * 2,
         flex: "0 1 auto",
         fontWeight: 700,
         fontSize: "1.05rem",
     },
     messageField: {
-        flex: "1 2 7em",
-        padding: theme.spacing.unit,
+        flex: "1 1 10em",
+        paddingLeft: theme.spacing.unit * 2,
+        paddingRight: theme.spacing.unit,
+        lineHeight: 1.5,
     },
     form: {
         display: "contents"
+    },
+    sendButton: {
+        marginTop: theme.spacing.unit,
+        marginBottom: theme.spacing.unit,
+        marginRight: theme.spacing.unit,
     },
     grow: {
         flexGrow: 1,
@@ -156,27 +173,31 @@ class Chatroom extends Component {
                         <Toolbar className={classes.toolbar}>
                             <HelpButton />
                             <Paper className={classes.inputArea}>
-                                <Typography
-                                    variant="body1"
-                                    className={classes.nickname}
-                                    style={{ color: users[thisUserId] ? users[thisUserId].color : "black" }}
-                                >
-                                    {users[thisUserId] ? users[thisUserId].nick : "me"}
-                                </Typography>
                                 <form
                                     onSubmit={this.submitMessage}
                                     className={classes.form}
                                 >
-                                    <InputBase
-                                        className={classes.messageField}
-                                        fullWidth
-                                        autoFocus
-                                        placeholder="Write a message..."
-                                        value={draft}
-                                        onChange={this.writeDraft}
-                                        inputRef={el => { this.inputArea = el; }}
-                                    />
+                                    <div className={classes.wrapGroup}>
+                                        <Typography
+                                            variant="body1"
+                                            className={classes.nickname}
+                                            style={{ color: users[thisUserId] ? users[thisUserId].color : "black" }}
+                                        >
+                                            {users[thisUserId] ? users[thisUserId].nick : "me"}
+                                        </Typography>
+                                        <InputBase
+                                            className={classes.messageField}
+                                            fullWidth
+                                            autoFocus
+                                            multiline
+                                            placeholder="Write a message..."
+                                            value={draft}
+                                            onChange={this.writeDraft}
+                                            inputRef={el => { this.inputArea = el; }}
+                                        />
+                                    </div>
                                     <Button
+                                        className={classes.sendButton}
                                         color="primary"
                                         disabled={draft === ""}
                                         type="submit"
