@@ -26,6 +26,15 @@ const styles = theme => ({
     icon: {
         verticalAlign: "bottom",
     },
+    copyright: {
+        fontSize: "80%",
+    },
+    githubLink: {
+        color: "inherit",
+        ["&:hover"]: {
+            color: theme.palette.primary.light,
+        }
+    },
 });
 
 class HelpButton extends Component {
@@ -78,6 +87,9 @@ class HelpButton extends Component {
                             <br />
                             On desktop, hold <span className={classes.key}>Shift</span>+
                             <span className={classes.key}>Enter</span> to add a new line without sending.<br />
+                            <br />
+                            <span className={classes.copyright}> Copyright © 2019, Kurtis Jantzen. MIT licenced.
+                            Source at <a href="https://github.com/nxtman123/react-chatroom" target="_new" className={classes.githubLink}>GitHub.com</a>.</span>
                         </DialogContentText>
                     </DialogContent>
                 </Popover>
