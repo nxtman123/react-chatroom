@@ -11,7 +11,7 @@ const moment = require("moment");
 const port = process.env.PORT || 8080;
 
 const users = {};
-const messages = [];
+let messages = [];
 
 app.use(express.static("dist"));
 
@@ -77,6 +77,9 @@ io.on("connection", socket => {
                 } else {
                     socket.emit("nope", ["Use a hex color code in the form ", "RRGGBB", "."]);
                 }
+            } else if (command === "clearall") { // delete all messages
+                messages = [];
+                io.emit("message history", messages);
             } else {
                 socket.emit("nope", ["Unknown command ", "/" + command, "."]);
             }
