@@ -3,6 +3,8 @@ import { withStyles } from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
 import classNames from "classnames";
 
+import isTouchDevice from "is-touch-device";
+
 import Drawer from "@material-ui/core/Drawer";
 import Divider from "@material-ui/core/Divider";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -251,8 +253,7 @@ class Chatroom extends Component {
     }
 
     checkSubmit = e => {
-        console.log(e)
-        if (e.which == 13 && !e.shiftKey) {
+        if (e.which == 13 && !e.shiftKey && !isTouchDevice()) {
             this.submitMessage(e);
         }
     }

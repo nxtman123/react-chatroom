@@ -27,6 +27,9 @@ const styles = theme => ({
     time: {
         color: theme.palette.text.disabled,
     },
+    messageText: {
+        whiteSpace: "pre-line",
+    },
     bottomButton: {
         position: "sticky",
         marginTop: theme.spacing.unit * 3,
@@ -87,7 +90,7 @@ class Messages extends Component {
                         >
                             {moment.unix(message.time).calendar()}
                         </Typography>
-                        <Typography>
+                        <Typography className={classes.messageText}>
                             {message.text}
                         </Typography>
                     </Paper>

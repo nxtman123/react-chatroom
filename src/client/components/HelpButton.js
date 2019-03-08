@@ -16,6 +16,13 @@ const styles = theme => ({
         backgroundColor: theme.palette.grey[200],
         borderRadius: theme.shape.borderRadius,
     },
+    key: {
+        display: "inline-block",
+        paddingLeft: "0.5ex",
+        paddingRight: "0.5ex",
+        backgroundColor: theme.palette.grey[200],
+        borderRadius: theme.shape.borderRadius,
+    },
     icon: {
         verticalAlign: "bottom",
     },
@@ -68,6 +75,9 @@ class HelpButton extends Component {
                             show / hide the list of users. Online users have
                             a <Icon className={classes.icon}>check</Icon> beside their name
                             and offline users have a <Icon className={classes.icon}>close</Icon>.<br />
+                            <br />
+                            On desktop, hold <span className={classes.key}>Shift</span>+
+                            <span className={classes.key}>Enter</span> to add a new line without sending.<br />
                         </DialogContentText>
                     </DialogContent>
                 </Popover>
