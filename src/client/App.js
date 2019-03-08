@@ -58,6 +58,11 @@ class App extends Component {
                 alertMessage: nopeMsg,
             });
         });
+
+        this.socket.on("kick", () => {
+            window.localStorage.removeItem("userId");
+            location.reload(true);
+        });
     }
 
     render() {

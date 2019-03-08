@@ -10,7 +10,7 @@ const moment = require("moment");
 
 const port = process.env.PORT || 8080;
 
-const users = {};
+let users = {};
 let messages = [];
 
 app.use(express.static("dist"));
@@ -32,6 +32,7 @@ io.on("connection", socket => {
             online: true,
         };
     }
+    console.log(users);
     io.emit("user list", users);     // send the updated user list before...
     socket.emit("identify", userId); // sending the user's id
     socket.emit("message history", messages);
@@ -77,9 +78,13 @@ io.on("connection", socket => {
                 } else {
                     socket.emit("nope", ["Use a hex color code in the form ", "RRGGBB", "."]);
                 }
-            } else if (command === "clearall") { // delete all messages
+            } else if (command === "clear") { // delete all messages
                 messages = [];
                 io.emit("message history", messages);
+            } else if (command === "clearall") { // delete all messages and kick all users
+                users = {};
+                messages = [];
+                io.emit("kick");
             } else {
                 socket.emit("nope", ["Unknown command ", "/" + command, "."]);
             }
@@ -97,11 +102,13 @@ io.on("connection", socket => {
     });
 
     socket.on("disconnect", () => {
-        users[userId] = {
-            ...users[userId],
-            online: false,
-        };
-        io.emit("user list", users);
+        if (Object.keys(users).indexOf(userId) !== -1) {
+            users[userId] = {
+                ...users[userId],
+                online: false,
+            };
+            io.emit("user list", users);
+        }
         console.log("user " + userId + " disconnected :(");
     });
 });
