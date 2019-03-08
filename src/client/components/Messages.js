@@ -4,10 +4,15 @@ import classNames from "classnames";
 
 import moment from "moment";
 
+import Fab from "@material-ui/core/Fab";
+import Icon from "@material-ui/core/Icon";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 
 const styles = theme => ({
+    listFrame: {
+        marginTop: "-150vh",
+    },
     paper: {
         padding: theme.spacing.unit,
         marginBottom: theme.spacing.unit,
@@ -21,7 +26,14 @@ const styles = theme => ({
     },
     time: {
         color: theme.palette.text.disabled,
-    }
+    },
+    bottomButton: {
+        position: "sticky",
+        marginTop: theme.spacing.unit * 3,
+        marginBottom: "150vh",
+        marginLeft: `calc(100% - ${theme.spacing.unit * 6}px)`,
+        top: theme.spacing.unit * 2,
+    },
 });
 
 class Messages extends Component {
@@ -32,7 +44,14 @@ class Messages extends Component {
     render() {
         const { classes, thisUserId, users, messages } = this.props;
         return (
-            <Fragment>
+            <div className={classes.listFrame}>
+                <Fab
+                    className={classes.bottomButton}
+                    color="primary"
+                    onClick={() => { this.messagesEnd.scrollIntoView({ behavior: "smooth" }); }}
+                >
+                    <Icon>arrow_downward</Icon>
+                </Fab>
                 {messages.sort(
                     (a, b) => a.id > b.id
                 ).map((message) =>
@@ -63,7 +82,7 @@ class Messages extends Component {
                     </Paper>
                 )}
                 <a id="messagesEnd" ref={(el) => { this.messagesEnd = el; }} />
-            </Fragment>
+            </div>
         );
     }
 
