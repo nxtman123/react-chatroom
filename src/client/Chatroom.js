@@ -21,13 +21,14 @@ const drawerWidth = 250;
 
 const styles = theme => ({
     root: {
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "stretch",
+        // display: "flex",
+        // flexDirection: "column",
+        // alignItems: "stretch",
         height: "100vh",
     },
     content: {
-        flexGrow: 1,
+        // flexGrow: 1,
+        minHeight: "100%",
         display: "flex",
         flexDirection: "column",
         alignItems: "stretch",

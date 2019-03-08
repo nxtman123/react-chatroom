@@ -99,25 +99,30 @@ class Messages extends Component {
     }
 
     componentDidUpdate() {
+        console.log(this.props.messages.length, this.state.messageCount)
+
         if (this.props.messages.length !== this.state.messageCount) {
             this.setState({ messageCount: this.props.messages.length });
 
             // we've got new messages, but should we scroll to the bottom?
             if ((
-                    // yes, if we're close to the bottom
-                    this.props.messagesEnd.getBoundingClientRect().bottom <
-                    (window.innerHeight || document.documentElement.clientHeight) + 300
-                ) || (
-                    // yes, if it's my message
-                    this.props.messages[this.props.messages.length-1].userId === this.props.thisUserId
-                ) || (
-                    // yes, if we're recieving more than one new message
-                    // (e.g. joining existing chat, or reconnecting)
-                    this.props.messages.length > this.state.messageCount + 1
-                )
-            ) {
+                // yes, if we're recieving more than one new message
+                // (e.g. joining existing chat, or reconnecting)
+                this.props.messages.length > this.state.messageCount + 1
+            ) || (
+                // yes, if it's my message
+                this.props.messages[this.props.messages.length-1].userId === this.props.thisUserId
+            )) {
                 this.props.messagesEnd.scrollIntoView({ behavior: "smooth" });
             }
+        }
+
+        if (document.body.scrollHeight <
+                window.scrollY +
+                (window.innerHeight || document.documentElement.clientHeight) +
+                600
+        ) {
+            this.props.messagesEnd.scrollIntoView({ behavior: "smooth" });
         }
     }
 }
