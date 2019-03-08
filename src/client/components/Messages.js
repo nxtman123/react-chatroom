@@ -37,21 +37,32 @@ const styles = theme => ({
 });
 
 class Messages extends Component {
+    listFrame = null;
     messagesEnd = null;
 
     state = { messageCount: this.props.messages.length }
 
     render() {
         const { classes, thisUserId, users, messages } = this.props;
+
+        const screenHeight = (window.innerHeight || document.documentElement.clientHeight);
+        const contentHeight = this.listFrame ? this.listFrame.getBoundingClientRect().height : 0;
+        const showDownButton = contentHeight > screenHeight * 3.5;
+
         return (
-            <div className={classes.listFrame}>
-                <Fab
-                    className={classes.bottomButton}
-                    color="primary"
-                    onClick={() => { this.messagesEnd.scrollIntoView({ behavior: "smooth" }); }}
-                >
-                    <Icon>arrow_downward</Icon>
-                </Fab>
+            <div
+                className={showDownButton ? classes.listFrame : null}
+                ref={(el) => { this.listFrame = el; }}
+            >
+                {showDownButton ?
+                    <Fab
+                        className={classes.bottomButton}
+                        color="primary"
+                        onClick={() => { this.messagesEnd.scrollIntoView({ behavior: "smooth" }); }}
+                    >
+                        <Icon>arrow_downward</Icon>
+                    </Fab>
+                : null}
                 {messages.sort(
                     (a, b) => a.id > b.id
                 ).map((message) =>
